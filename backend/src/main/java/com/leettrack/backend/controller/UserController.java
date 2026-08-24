@@ -1,11 +1,13 @@
 package com.leettrack.backend.controller;
 
+import com.leettrack.backend.dto.RegisterRequest;
+import com.leettrack.backend.dto.RegisterResponse;
 import com.leettrack.backend.entity.User;
 import com.leettrack.backend.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/auth")
 public class UserController {
 
     private final UserService userService;
@@ -14,8 +16,14 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userService.createUser(user);
+    @PostMapping("/register")
+    public RegisterResponse register(@RequestBody RegisterRequest request) {
+
+        User user = userService.registerUser(request);
+
+        return new RegisterResponse(
+                user.getId(),
+                user.getName(),
+                user.getEmail());
     }
 }
