@@ -1,6 +1,8 @@
 package com.leettrack.backend.config;
 
 import com.leettrack.backend.security.JwtAuthenticationFilter;
+import com.leettrack.backend.security.OAuth2AuthenticationSuccessHandler;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,9 +17,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
 
-    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
+    public SecurityConfig(
+            JwtAuthenticationFilter jwtAuthenticationFilter,
+            OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler) {
+
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.oAuth2AuthenticationSuccessHandler = oAuth2AuthenticationSuccessHandler;
     }
 
     @Bean
@@ -41,6 +48,9 @@ public class SecurityConfig {
                                     HttpServletResponse.SC_UNAUTHORIZED,
                                     "Unauthorized");
                         }))
+
+                .oauth2Login(oauth -> oauth
+                        .successHandler(oAuth2AuthenticationSuccessHandler))
 
                 .addFilterBefore(
                         jwtAuthenticationFilter,

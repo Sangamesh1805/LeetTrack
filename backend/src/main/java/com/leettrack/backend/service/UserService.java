@@ -1,6 +1,7 @@
 package com.leettrack.backend.service;
 
 import com.leettrack.backend.dto.RegisterRequest;
+import com.leettrack.backend.entity.AuthProvider;
 import com.leettrack.backend.entity.User;
 import com.leettrack.backend.exception.EmailAlreadyExistsException;
 import com.leettrack.backend.repository.UserRepository;
@@ -29,6 +30,9 @@ public class UserService {
 
         user.setName(request.getName());
         user.setEmail(request.getEmail());
+
+        // This is a normal email/password account
+        user.setAuthProvider(AuthProvider.LOCAL);
 
         // Hash the password before saving
         user.setPassword(passwordEncoder.encode(request.getPassword()));
