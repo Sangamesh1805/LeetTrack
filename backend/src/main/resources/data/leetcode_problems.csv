@@ -1,0 +1,51 @@
+orderIndex,title,slug,difficulty,category,leetcodeUrl
+1,Two Sum,two-sum,EASY,ARRAY,https://leetcode.com/problems/two-sum/
+2,Contains Duplicate,contains-duplicate,EASY,ARRAY,https://leetcode.com/problems/contains-duplicate/
+3,Valid Anagram,valid-anagram,EASY,STRING,https://leetcode.com/problems/valid-anagram/
+4,Group Anagrams,group-anagrams,MEDIUM,STRING,https://leetcode.com/problems/group-anagrams/
+5,Majority Element,majority-element,EASY,ARRAY,https://leetcode.com/problems/majority-element/
+6,Product of Array Except Self,product-of-array-except-self,MEDIUM,ARRAY,https://leetcode.com/problems/product-of-array-except-self/
+7,Maximum Subarray,maximum-subarray,MEDIUM,ARRAY,https://leetcode.com/problems/maximum-subarray/
+8,Best Time to Buy and Sell Stock,best-time-to-buy-and-sell-stock,EASY,ARRAY,https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
+9,Longest Consecutive Sequence,longest-consecutive-sequence,MEDIUM,ARRAY,https://leetcode.com/problems/longest-consecutive-sequence/
+10,Valid Sudoku,valid-sudoku,MEDIUM,ARRAY,https://leetcode.com/problems/valid-sudoku/
+11,Move Zeroes,move-zeroes,EASY,TWO_POINTERS,https://leetcode.com/problems/move-zeroes/
+12,Remove Duplicates from Sorted Array,remove-duplicates-from-sorted-array,EASY,TWO_POINTERS,https://leetcode.com/problems/remove-duplicates-from-sorted-array/
+13,Valid Palindrome,valid-palindrome,EASY,TWO_POINTERS,https://leetcode.com/problems/valid-palindrome/
+14,Two Sum II - Input Array Is Sorted,two-sum-ii-input-array-is-sorted,MEDIUM,TWO_POINTERS,https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/
+15,3Sum,3sum,MEDIUM,TWO_POINTERS,https://leetcode.com/problems/3sum/
+16,Container With Most Water,container-with-most-water,MEDIUM,TWO_POINTERS,https://leetcode.com/problems/container-with-most-water/
+17,Trapping Rain Water,trapping-rain-water,HARD,TWO_POINTERS,https://leetcode.com/problems/trapping-rain-water/
+18,Longest Substring Without Repeating Characters,longest-substring-without-repeating-characters,MEDIUM,SLIDING_WINDOW,https://leetcode.com/problems/longest-substring-without-repeating-characters/
+19,Longest Repeating Character Replacement,longest-repeating-character-replacement,MEDIUM,SLIDING_WINDOW,https://leetcode.com/problems/longest-repeating-character-replacement/
+20,Permutation in String,permutation-in-string,MEDIUM,SLIDING_WINDOW,https://leetcode.com/problems/permutation-in-string/
+21,Minimum Window Substring,minimum-window-substring,HARD,SLIDING_WINDOW,https://leetcode.com/problems/minimum-window-substring/
+22,Minimum Size Subarray Sum,minimum-size-subarray-sum,MEDIUM,SLIDING_WINDOW,https://leetcode.com/problems/minimum-size-subarray-sum/
+23,Valid Parentheses,valid-parentheses,EASY,STACK,https://leetcode.com/problems/valid-parentheses/
+24,Min Stack,min-stack,MEDIUM,STACK,https://leetcode.com/problems/min-stack/
+25,Evaluate Reverse Polish Notation,evaluate-reverse-polish-notation,MEDIUM,STACK,https://leetcode.com/problems/evaluate-reverse-polish-notation/
+26,Daily Temperatures,daily-temperatures,MEDIUM,STACK,https://leetcode.com/problems/daily-temperatures/
+27,Largest Rectangle in Histogram,largest-rectangle-in-histogram,HARD,STACK,https://leetcode.com/problems/largest-rectangle-in-histogram/
+28,Binary Search,binary-search,EASY,BINARY_SEARCH,https://leetcode.com/problems/binary-search/
+29,Search a 2D Matrix,search-a-2d-matrix,MEDIUM,BINARY_SEARCH,https://leetcode.com/problems/search-a-2d-matrix/
+30,Koko Eating Bananas,koko-eating-bananas,MEDIUM,BINARY_SEARCH,https://leetcode.com/problems/koko-eating-bananas/
+31,Find Minimum in Rotated Sorted Array,find-minimum-in-rotated-sorted-array,MEDIUM,BINARY_SEARCH,https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/
+32,Search in Rotated Sorted Array,search-in-rotated-sorted-array,MEDIUM,BINARY_SEARCH,https://leetcode.com/problems/search-in-rotated-sorted-array/
+33,Reverse Linked List,reverse-linked-list,EASY,LINKED_LIST,https://leetcode.com/problems/reverse-linked-list/
+34,Merge Two Sorted Lists,merge-two-sorted-lists,EASY,LINKED_LIST,https://leetcode.com/problems/merge-two-sorted-lists/
+35,Linked List Cycle,linked-list-cycle,EASY,LINKED_LIST,https://leetcode.com/problems/linked-list-cycle/
+36,Linked List Cycle II,linked-list-cycle-ii,MEDIUM,LINKED_LIST,https://leetcode.com/problems/linked-list-cycle-ii/
+37,Remove Nth Node From End of List,remove-nth-node-from-end-of-list,MEDIUM,LINKED_LIST,https://leetcode.com/problems/remove-nth-node-from-end-of-list/
+38,Reorder List,reorder-list,MEDIUM,LINKED_LIST,https://leetcode.com/problems/reorder-list/
+39,Add Two Numbers,add-two-numbers,MEDIUM,LINKED_LIST,https://leetcode.com/problems/add-two-numbers/
+40,Maximum Depth of Binary Tree,maximum-depth-of-binary-tree,EASY,TREE,https://leetcode.com/problems/maximum-depth-of-binary-tree/
+41,Invert Binary Tree,invert-binary-tree,EASY,TREE,https://leetcode.com/problems/invert-binary-tree/
+42,Same Tree,same-tree,EASY,TREE,https://leetcode.com/problems/same-tree/
+43,Binary Tree Level Order Traversal,binary-tree-level-order-traversal,MEDIUM,TREE,https://leetcode.com/problems/binary-tree-level-order-traversal/
+44,Validate Binary Search Tree,validate-binary-search-tree,MEDIUM,TREE,https://leetcode.com/problems/validate-binary-search-tree/
+45,Kth Smallest Element in a BST,kth-smallest-element-in-a-bst,MEDIUM,TREE,https://leetcode.com/problems/kth-smallest-element-in-a-bst/
+46,Lowest Common Ancestor of a Binary Search Tree,lowest-common-ancestor-of-a-binary-search-tree,MEDIUM,TREE,https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/
+47,Subsets,subsets,MEDIUM,BACKTRACKING,https://leetcode.com/problems/subsets/
+48,Combination Sum,combination-sum,MEDIUM,BACKTRACKING,https://leetcode.com/problems/combination-sum/
+49,Permutations,permutations,MEDIUM,BACKTRACKING,https://leetcode.com/problems/permutations/
+50,Word Search,word-search,MEDIUM,BACKTRACKING,https://leetcode.com/problems/word-search/

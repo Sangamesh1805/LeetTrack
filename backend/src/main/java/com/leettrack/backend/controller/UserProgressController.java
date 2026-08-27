@@ -5,6 +5,7 @@ import com.leettrack.backend.entity.UserProgress;
 import com.leettrack.backend.repository.UserRepository;
 import com.leettrack.backend.service.UserProgressService;
 import com.leettrack.backend.entity.RevisionHistory;
+import com.leettrack.backend.dto.ProgressStatsResponse;
 import org.springframework.http.ResponseEntity;
 import com.leettrack.backend.dto.ProgressResponse;
 import com.leettrack.backend.dto.RevisionHistoryResponse;
@@ -18,95 +19,131 @@ import java.util.List;
 @RequestMapping("/api/progress")
 public class UserProgressController {
 
-    private final UserProgressService userProgressService;
-    private final UserRepository userRepository;
+        private final UserProgressService userProgressService;
+        private final UserRepository userRepository;
 
-    public UserProgressController(
-            UserProgressService userProgressService,
-            UserRepository userRepository) {
+        public UserProgressController(
+                        UserProgressService userProgressService,
+                        UserRepository userRepository) {
 
-        this.userProgressService = userProgressService;
-        this.userRepository = userRepository;
-    }
+                this.userProgressService = userProgressService;
+                this.userRepository = userRepository;
+        }
 
-    @PostMapping("/{problemId}/solve")
-    public ResponseEntity<ProgressResponse> markAsSolved(
-            @PathVariable Long problemId,
-            Authentication authentication) {
+        @GetMapping
+        public ResponseEntity<List<ProgressResponse>> getUserProgress(
+                        Authentication authentication) {
 
-        String email = authentication.getName();
+                String email = authentication.getName();
 
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                User user = userRepository.findByEmail(email)
+                                .orElseThrow(() -> new RuntimeException("User not found"));
 
-        UserProgress progress = userProgressService.markProblemAsSolved(
-                user.getId(),
-                problemId);
+                List<UserProgress> progressList = userProgressService.getUserProgress(user.getId());
 
-        ProgressResponse response = new ProgressResponse(
-                progress.getProblem().getId(),
-                progress.getProblem().getTitle(),
-                progress.isSolved(),
-                progress.getSolvedAt());
+                List<ProgressResponse> response = progressList.stream()
+                                .map(progress -> new ProgressResponse(
+                                                progress.getProblem().getId(),
+                                                progress.getProblem().getTitle(),
+                                                progress.isSolved(),
+                                                progress.getSolvedAt()))
+                                .toList();
 
-        return ResponseEntity.ok(response);
-    }
+                return ResponseEntity.ok(response);
+        }
 
-    @PostMapping("/{problemId}/revise")
-    public ResponseEntity<RevisionResponse> markAsRevised(
-            @PathVariable Long problemId,
-            Authentication authentication) {
+        @GetMapping("/stats")
+        public ResponseEntity<ProgressStatsResponse> getProgressStats(
+                        Authentication authentication) {
 
-        String email = authentication.getName();
+                String email = authentication.getName();
 
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                User user = userRepository.findByEmail(email)
+                                .orElseThrow(() -> new RuntimeException("User not found"));
 
-        RevisionHistory revision = userProgressService.markProblemAsRevised(
-                user.getId(),
-                problemId);
+                ProgressStatsResponse stats = userProgressService.getProgressStats(user.getId());
 
-        RevisionResponse response = new RevisionResponse(
-                revision.getRevisionNumber(),
-                revision.getRevisedAt());
+                return ResponseEntity.ok(stats);
+        }
 
-        return ResponseEntity.ok(response);
-    }
+        @PostMapping("/{problemId}/solve")
+        public ResponseEntity<ProgressResponse> markAsSolved(
+                        @PathVariable Long problemId,
+                        Authentication authentication) {
 
-    @GetMapping("/{problemId}/revisions")
-    public ResponseEntity<List<RevisionHistoryResponse>> getRevisionHistory(
-            @PathVariable Long problemId,
-            Authentication authentication) {
+                String email = authentication.getName();
 
-        String email = authentication.getName();
+                User user = userRepository.findByEmail(email)
+                                .orElseThrow(() -> new RuntimeException("User not found"));
 
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                UserProgress progress = userProgressService.markProblemAsSolved(
+                                user.getId(),
+                                problemId);
 
-        List<RevisionHistory> revisions = userProgressService.getRevisionHistory(
-                user.getId(),
-                problemId);
+                ProgressResponse response = new ProgressResponse(
+                                progress.getProblem().getId(),
+                                progress.getProblem().getTitle(),
+                                progress.isSolved(),
+                                progress.getSolvedAt());
 
-        List<RevisionHistoryResponse> response = revisions.stream()
-                .map(revision -> new RevisionHistoryResponse(
-                        revision.getRevisionNumber(),
-                        revision.getRevisedAt()))
-                .toList();
+                return ResponseEntity.ok(response);
+        }
 
-        return ResponseEntity.ok(response);
-    }
+        @PostMapping("/{problemId}/revise")
+        public ResponseEntity<RevisionResponse> markAsRevised(
+                        @PathVariable Long problemId,
+                        Authentication authentication) {
 
-    @GetMapping("/solved-count")
-    public ResponseEntity<Long> getSolvedCount(
-            Authentication authentication) {
+                String email = authentication.getName();
 
-        String email = authentication.getName();
+                User user = userRepository.findByEmail(email)
+                                .orElseThrow(() -> new RuntimeException("User not found"));
 
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                RevisionHistory revision = userProgressService.markProblemAsRevised(
+                                user.getId(),
+                                problemId);
 
-        long count = userProgressService.getSolvedCount(user.getId());
+                RevisionResponse response = new RevisionResponse(
+                                revision.getRevisionNumber(),
+                                revision.getRevisedAt());
 
-        return ResponseEntity.ok(count);
-    }
+                return ResponseEntity.ok(response);
+        }
+
+        @GetMapping("/{problemId}/revisions")
+        public ResponseEntity<List<RevisionHistoryResponse>> getRevisionHistory(
+                        @PathVariable Long problemId,
+                        Authentication authentication) {
+
+                String email = authentication.getName();
+
+                User user = userRepository.findByEmail(email)
+                                .orElseThrow(() -> new RuntimeException("User not found"));
+
+                List<RevisionHistory> revisions = userProgressService.getRevisionHistory(
+                                user.getId(),
+                                problemId);
+
+                List<RevisionHistoryResponse> response = revisions.stream()
+                                .map(revision -> new RevisionHistoryResponse(
+                                                revision.getRevisionNumber(),
+                                                revision.getRevisedAt()))
+                                .toList();
+
+                return ResponseEntity.ok(response);
+        }
+
+        @GetMapping("/solved-count")
+        public ResponseEntity<Long> getSolvedCount(
+                        Authentication authentication) {
+
+                String email = authentication.getName();
+
+                User user = userRepository.findByEmail(email)
+                                .orElseThrow(() -> new RuntimeException("User not found"));
+
+                long count = userProgressService.getSolvedCount(user.getId());
+
+                return ResponseEntity.ok(count);
+        }
 }

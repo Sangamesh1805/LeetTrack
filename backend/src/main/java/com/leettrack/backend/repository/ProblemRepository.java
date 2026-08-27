@@ -7,6 +7,8 @@ import java.util.Optional;
 
 public interface ProblemRepository extends JpaRepository<Problem, Long> {
 
+    long count();
+
     Optional<Problem> findBySlug(String slug);
 
     boolean existsBySlug(String slug);

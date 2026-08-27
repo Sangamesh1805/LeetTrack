@@ -3,7 +3,10 @@ package com.leettrack.backend.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "problems")
+@Table(name = "problems", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "slug"),
+        @UniqueConstraint(columnNames = "order_index")
+})
 public class Problem {
 
     @Id
