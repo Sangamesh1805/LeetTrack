@@ -21,4 +21,12 @@ public interface ProblemRepository extends JpaRepository<Problem, Long> {
     List<String> findDistinctCategories();
 
     List<Problem> findByCategoryOrderByOrderIndexAsc(String category);
+
+    @Query("""
+            SELECT p.category, COUNT(p)
+            FROM Problem p
+            GROUP BY p.category
+            ORDER BY p.category
+            """)
+    List<Object[]> countProblemsByCategory();
 }

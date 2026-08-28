@@ -36,4 +36,15 @@ public interface UserProgressRepository
         List<Object[]> findProblemsWithProgress(
                         @Param("userId") Long userId,
                         @Param("category") String category);
+
+        @Query("""
+                        SELECT p.category, COUNT(up)
+                        FROM UserProgress up
+                        JOIN up.problem p
+                        WHERE up.user.id = :userId
+                        AND up.solved = true
+                        GROUP BY p.category
+                        """)
+        List<Object[]> countSolvedProblemsByCategory(
+                        @Param("userId") Long userId);
 }

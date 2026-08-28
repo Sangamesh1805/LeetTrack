@@ -1,5 +1,6 @@
 package com.leettrack.backend.service;
 
+import com.leettrack.backend.dto.CategoryStatsResponse;
 import com.leettrack.backend.dto.ProblemProgressResponse;
 import com.leettrack.backend.dto.ProgressStatsResponse;
 import com.leettrack.backend.entity.Difficulty;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class UserProgressService {
@@ -177,6 +180,34 @@ public class UserProgressService {
         public List<UserProgress> getUserProgress(Long userId) {
 
                 return userProgressRepository.findByUserId(userId);
+        }
+
+        public List<CategoryStatsResponse> getCategoryStats(Long userId) {
+
+                List<Object[]> totalResults = problemRepository.countProblemsByCategory();
+
+                List<Object[]> solvedResults = userProgressRepository.countSolvedProblemsByCategory(userId);
+
+                Map<String, Long> solvedByCategory = solvedResults.stream()
+                                .collect(Collectors.toMap(
+                                                row -> (String) row[0],
+                                                row -> (Long) row[1]));
+
+                return totalResults.stream()
+                                .map(row -> {
+                                        String category = (String) row[0];
+                                        long total = (Long) row[1];
+
+                                        long solved = solvedByCategory.getOrDefault(
+                                                        category,
+                                                        0L);
+
+                                        return new CategoryStatsResponse(
+                                                        category,
+                                                        total,
+                                                        solved);
+                                })
+                                .toList();
         }
 
         public long getSolvedCount(Long userId) {
