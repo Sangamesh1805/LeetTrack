@@ -7,6 +7,8 @@ import com.leettrack.backend.service.UserProgressService;
 import com.leettrack.backend.entity.RevisionHistory;
 import com.leettrack.backend.dto.ProgressStatsResponse;
 import org.springframework.http.ResponseEntity;
+
+import com.leettrack.backend.dto.ProblemProgressResponse;
 import com.leettrack.backend.dto.ProgressResponse;
 import com.leettrack.backend.dto.RevisionHistoryResponse;
 import com.leettrack.backend.dto.RevisionResponse;
@@ -50,6 +52,23 @@ public class UserProgressController {
                                 .toList();
 
                 return ResponseEntity.ok(response);
+        }
+
+        @GetMapping("/category/{category}")
+        public ResponseEntity<List<ProblemProgressResponse>> getProblemsByCategory(
+                        @PathVariable String category,
+                        Authentication authentication) {
+
+                String email = authentication.getName();
+
+                User user = userRepository.findByEmail(email)
+                                .orElseThrow(() -> new RuntimeException("User not found"));
+
+                List<ProblemProgressResponse> problems = userProgressService.getProblemsByCategory(
+                                user.getId(),
+                                category);
+
+                return ResponseEntity.ok(problems);
         }
 
         @GetMapping("/stats")

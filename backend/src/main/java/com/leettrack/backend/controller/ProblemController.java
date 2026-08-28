@@ -21,6 +21,19 @@ public class ProblemController {
         return problemRepository.findAll();
     }
 
+    @GetMapping("/categories")
+    public List<String> getCategories() {
+        return problemRepository.findDistinctCategories();
+    }
+
+    @GetMapping("/category/{category}")
+    public List<Problem> getProblemsByCategory(
+            @PathVariable String category) {
+
+        return problemRepository
+                .findByCategoryOrderByOrderIndexAsc(category);
+    }
+
     @GetMapping("/{id}")
     public Problem getProblemById(@PathVariable Long id) {
         return problemRepository.findById(id)
