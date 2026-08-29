@@ -8,6 +8,7 @@ public class ProgressResponse {
     private String problemTitle;
     private boolean solved;
     private LocalDateTime solvedAt;
+    private long revisionCount;
 
     public ProgressResponse() {
     }
@@ -16,12 +17,14 @@ public class ProgressResponse {
             Long problemId,
             String problemTitle,
             boolean solved,
-            LocalDateTime solvedAt) {
+            LocalDateTime solvedAt,
+            long revisionCount) {
 
         this.problemId = problemId;
         this.problemTitle = problemTitle;
         this.solved = solved;
         this.solvedAt = solvedAt;
+        this.revisionCount = revisionCount;
     }
 
     public Long getProblemId() {
@@ -38,5 +41,9 @@ public class ProgressResponse {
 
     public LocalDateTime getSolvedAt() {
         return solvedAt;
+    }
+
+    public long getRevisionCount() {
+        return revisionCount;
     }
 }

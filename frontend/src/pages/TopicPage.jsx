@@ -2,6 +2,12 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../services/api";
 
+import TopicHeader from "../components/topics/TopicHeader";
+import ProblemList from "../components/topics/ProblemList";
+import SolveConfirmation from "../components/topics/SolveConfirmation";
+import RevisionConfirmation from "../components/topics/RevisionConfirmation";
+import RevisionHistory from "../components/topics/RevisionHistory";
+
 function TopicPage() {
   const { category } = useParams();
   const navigate = useNavigate();
@@ -9,6 +15,17 @@ function TopicPage() {
   const [problems, setProblems] = useState([]);
   const [progress, setProgress] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const [selectedProblem, setSelectedProblem] = useState(null);
+  const [solving, setSolving] = useState(false);
+
+  const [selectedRevisionProblem, setSelectedRevisionProblem] = useState(null);
+  const [selectedHistoryProblem, setSelectedHistoryProblem] = useState(null);
+
+  const [revisionHistory, setRevisionHistory] = useState([]);
+  const [historyLoading, setHistoryLoading] = useState(false);
+
+  const [revising, setRevising] = useState(false);
 
   useEffect(() => {
     const fetchTopicData = async () => {
@@ -34,6 +51,98 @@ function TopicPage() {
     return progress.some((item) => item.problemId === problemId && item.solved);
   };
 
+  const handleMarkSolved = (problem) => {
+    setSelectedProblem(problem);
+  };
+
+  const confirmMarkSolved = async () => {
+    if (!selectedProblem) {
+      return;
+    }
+
+    try {
+      setSolving(true);
+
+      const response = await api.post(`/progress/${selectedProblem.id}/solve`);
+
+      setProgress((currentProgress) => {
+        const existingProgress = currentProgress.find(
+          (item) => item.problemId === selectedProblem.id,
+        );
+
+        if (existingProgress) {
+          return currentProgress.map((item) =>
+            item.problemId === selectedProblem.id ? response.data : item,
+          );
+        }
+
+        return [...currentProgress, response.data];
+      });
+
+      setSelectedProblem(null);
+    } catch (error) {
+      console.error("Failed to mark problem as solved:", error);
+    } finally {
+      setSolving(false);
+    }
+  };
+
+  const handleMarkRevised = (problem) => {
+    setSelectedRevisionProblem(problem);
+  };
+
+  const confirmMarkRevised = async () => {
+    if (!selectedRevisionProblem) {
+      return;
+    }
+
+    try {
+      setRevising(true);
+
+      const response = await api.post(
+        `/progress/${selectedRevisionProblem.id}/revise`,
+      );
+
+      setProgress((currentProgress) =>
+        currentProgress.map((item) =>
+          item.problemId === selectedRevisionProblem.id
+            ? {
+                ...item,
+                revisionCount: response.data.revisionNumber,
+              }
+            : item,
+        ),
+      );
+
+      setSelectedRevisionProblem(null);
+    } catch (error) {
+      console.error("Failed to mark problem as revised:", error);
+    } finally {
+      setRevising(false);
+    }
+  };
+
+  const handleShowHistory = async (problem) => {
+    try {
+      setSelectedHistoryProblem(problem);
+      setHistoryLoading(true);
+
+      const response = await api.get(`/progress/${problem.id}/revisions`);
+
+      setRevisionHistory(response.data);
+    } catch (error) {
+      console.error("Failed to fetch revision history:", error);
+    } finally {
+      setHistoryLoading(false);
+    }
+  };
+
+  const getRevisionCount = (problemId) => {
+    const item = progress.find((item) => item.problemId === problemId);
+
+    return item?.revisionCount || 0;
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-950 text-white flex items-center justify-center">
@@ -57,90 +166,98 @@ function TopicPage() {
         <button
           onClick={() => navigate("/")}
           className="
-                        mb-8
-                        px-4
-                        py-2
-                        rounded-lg
-                        bg-gray-800
-                        hover:bg-gray-700
-                        transition
-                    "
+            mb-8
+            px-4
+            py-2
+            rounded-lg
+            bg-gray-800
+            hover:bg-gray-700
+            transition
+          "
         >
           ← Dashboard
         </button>
 
-        {/* Topic Header */}
+        <TopicHeader
+          category={category}
+          solvedCount={solvedCount}
+          totalProblems={problems.length}
+          percentage={percentage}
+        />
 
-        <div className="text-center mb-10">
-          <h1 className="text-4xl font-bold mb-3">{category}</h1>
-
-          <p className="text-gray-400">
-            {solvedCount} / {problems.length} solved
-          </p>
-
-          <p className="text-gray-500 mt-1">{percentage}% complete</p>
-        </div>
-
-        {/* Problems */}
-
-        <div className="space-y-4">
-          {problems.map((problem) => {
-            const solved = isSolved(problem.id);
-
-            return (
-              <div
-                key={problem.id}
-                className="
-                                    bg-gray-900
-                                    border border-gray-800
-                                    rounded-xl
-                                    p-5
-                                    flex
-                                    items-center
-                                    justify-between
-                                    gap-4
-                                "
-              >
-                <div className="flex items-center gap-5">
-                  <span className="text-gray-500 w-8">
-                    {problem.orderIndex}
-                  </span>
-
-                  <div>
-                    <h2 className="font-semibold">{problem.title}</h2>
-
-                    <p className="text-sm text-gray-500 mt-1">
-                      {problem.difficulty}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <span className={solved ? "text-green-400" : "text-gray-500"}>
-                    {solved ? "✓ Solved" : "○ Not solved"}
-                  </span>
-
-                  <a
-                    href={problem.leetcodeUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="
-                                            px-4
-                                            py-2
-                                            rounded-lg
-                                            bg-purple-600
-                                            hover:bg-purple-700
-                                            transition
-                                        "
-                  >
-                    LeetCode
-                  </a>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        <ProblemList
+          problems={problems}
+          isSolved={isSolved}
+          getRevisionCount={getRevisionCount}
+          onMarkSolved={handleMarkSolved}
+          onMarkRevised={handleMarkRevised}
+          onShowHistory={handleShowHistory}
+        />
       </div>
+
+      <SolveConfirmation
+        problem={selectedProblem}
+        solving={solving}
+        onCancel={() => setSelectedProblem(null)}
+        onConfirm={confirmMarkSolved}
+      />
+
+      <RevisionConfirmation
+        problem={selectedRevisionProblem}
+        revising={revising}
+        onCancel={() => setSelectedRevisionProblem(null)}
+        onConfirm={confirmMarkRevised}
+      />
+
+      {selectedHistoryProblem && (
+        <div
+          className="
+      fixed
+      inset-0
+      bg-black/70
+      flex
+      items-center
+      justify-center
+      px-4
+    "
+        >
+          <div
+            className="
+        bg-gray-900
+        border border-gray-700
+        rounded-2xl
+        p-6
+        max-w-lg
+        w-full
+      "
+          >
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold">Revision History</h2>
+
+              <button
+                onClick={() => {
+                  setSelectedHistoryProblem(null);
+                  setRevisionHistory([]);
+                }}
+                className="
+            text-gray-400
+            hover:text-white
+            text-xl
+          "
+              >
+                ✕
+              </button>
+            </div>
+
+            <p className="text-gray-400 mb-4">{selectedHistoryProblem.title}</p>
+
+            <RevisionHistory
+              revisions={revisionHistory}
+              loading={historyLoading}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

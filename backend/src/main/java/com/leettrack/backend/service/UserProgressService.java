@@ -210,6 +210,20 @@ public class UserProgressService {
                                 .toList();
         }
 
+        public long getRevisionCount(Long userId, Long problemId) {
+
+                UserProgress progress = userProgressRepository
+                                .findByUserIdAndProblemId(userId, problemId)
+                                .orElse(null);
+
+                if (progress == null) {
+                        return 0;
+                }
+
+                return revisionHistoryRepository
+                                .countByUserProgressId(progress.getId());
+        }
+
         public long getSolvedCount(Long userId) {
                 return userProgressRepository
                                 .countByUserIdAndSolvedTrue(userId);

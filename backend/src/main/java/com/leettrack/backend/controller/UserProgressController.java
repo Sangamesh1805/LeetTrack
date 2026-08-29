@@ -49,7 +49,10 @@ public class UserProgressController {
                                                 progress.getProblem().getId(),
                                                 progress.getProblem().getTitle(),
                                                 progress.isSolved(),
-                                                progress.getSolvedAt()))
+                                                progress.getSolvedAt(),
+                                                userProgressService.getRevisionCount(
+                                                                user.getId(),
+                                                                progress.getProblem().getId())))
                                 .toList();
 
                 return ResponseEntity.ok(response);
@@ -104,7 +107,10 @@ public class UserProgressController {
                                 progress.getProblem().getId(),
                                 progress.getProblem().getTitle(),
                                 progress.isSolved(),
-                                progress.getSolvedAt());
+                                progress.getSolvedAt(),
+                                userProgressService.getRevisionCount(
+                                                user.getId(),
+                                                progress.getProblem().getId()));
 
                 return ResponseEntity.ok(response);
         }
