@@ -7,6 +7,7 @@ import ProblemList from "../components/topics/ProblemList";
 import SolveConfirmation from "../components/topics/SolveConfirmation";
 import RevisionConfirmation from "../components/topics/RevisionConfirmation";
 import RevisionHistory from "../components/topics/RevisionHistory";
+import ProblemFilters from "../components/topics/ProblemFilters";
 
 function TopicPage() {
   const { category } = useParams();
@@ -27,11 +28,37 @@ function TopicPage() {
 
   const [revising, setRevising] = useState(false);
 
+  const [search, setSearch] = useState("");
+  const [difficulty, setDifficulty] = useState("");
+  const [status, setStatus] = useState("");
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetchTopicData();
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [category, search, difficulty]);
+
   useEffect(() => {
     const fetchTopicData = async () => {
       try {
+        const params = new URLSearchParams();
+
+        if (search.trim()) {
+          params.append("search", search.trim());
+        }
+
+        if (difficulty) {
+          params.append("difficulty", difficulty);
+        }
+
+        if (category) {
+          params.append("category", category);
+        }
+
         const [problemsResponse, progressResponse] = await Promise.all([
-          api.get(`/problems/category/${category}`),
+          api.get(`/problems/search?${params.toString()}`),
           api.get("/progress"),
         ]);
 
@@ -44,8 +71,12 @@ function TopicPage() {
       }
     };
 
-    fetchTopicData();
-  }, [category]);
+    const timer = setTimeout(() => {
+      fetchTopicData();
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [category, search, difficulty]);
 
   const isSolved = (problemId) => {
     return progress.some((item) => item.problemId === problemId && item.solved);
@@ -143,6 +174,18 @@ function TopicPage() {
     return item?.revisionCount || 0;
   };
 
+  const filteredProblems = problems.filter((problem) => {
+    if (status === "SOLVED") {
+      return isSolved(problem.id);
+    }
+
+    if (status === "UNSOLVED") {
+      return !isSolved(problem.id);
+    }
+
+    return true;
+  });
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-950 text-white flex items-center justify-center">
@@ -185,8 +228,17 @@ function TopicPage() {
           percentage={percentage}
         />
 
+        <ProblemFilters
+          search={search}
+          difficulty={difficulty}
+          status={status}
+          onSearchChange={setSearch}
+          onDifficultyChange={setDifficulty}
+          onStatusChange={setStatus}
+        />
+
         <ProblemList
-          problems={problems}
+          problems={filteredProblems}
           isSolved={isSolved}
           getRevisionCount={getRevisionCount}
           onMarkSolved={handleMarkSolved}

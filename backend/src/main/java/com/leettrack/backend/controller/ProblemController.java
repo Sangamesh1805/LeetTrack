@@ -1,5 +1,6 @@
 package com.leettrack.backend.controller;
 
+import com.leettrack.backend.entity.Difficulty;
 import com.leettrack.backend.entity.Problem;
 import com.leettrack.backend.repository.ProblemRepository;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,18 @@ public class ProblemController {
 
         return problemRepository
                 .findByCategoryOrderByOrderIndexAsc(category);
+    }
+
+    @GetMapping("/search")
+    public List<Problem> searchProblems(
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) Difficulty difficulty,
+            @RequestParam(required = false) String category) {
+
+        return problemRepository.searchProblems(
+                search,
+                difficulty,
+                category);
     }
 
     @GetMapping("/{id}")
