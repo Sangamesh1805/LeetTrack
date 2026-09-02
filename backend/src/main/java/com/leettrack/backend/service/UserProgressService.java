@@ -138,6 +138,10 @@ public class UserProgressService {
                 long totalRevisions = revisionHistoryRepository
                                 .countByUserProgressUserId(userId);
 
+                long easyTotal = problemRepository.countByDifficulty(Difficulty.EASY);
+                long mediumTotal = problemRepository.countByDifficulty(Difficulty.MEDIUM);
+                long hardTotal = problemRepository.countByDifficulty(Difficulty.HARD);
+
                 return new ProgressStatsResponse(
                                 totalProblems,
                                 solved,
@@ -146,7 +150,10 @@ public class UserProgressService {
                                 easySolved,
                                 mediumSolved,
                                 hardSolved,
-                                totalRevisions);
+                                totalRevisions,
+                                easyTotal,
+                                mediumTotal,
+                                hardTotal);
         }
 
         public List<ProblemProgressResponse> getProblemsByCategory(

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import TopicCard from "../components/TopicCard";
+import Navbar from "../components/Navbar";
 
 function Dashboard() {
   const [stats, setStats] = useState(null);
@@ -35,80 +36,259 @@ function Dashboard() {
     );
   }
 
+  // Difficulty completion percentages
+  const easyPercentage =
+    stats?.easyTotal > 0 ? (stats.easySolved / stats.easyTotal) * 100 : 0;
+
+  const mediumPercentage =
+    stats?.mediumTotal > 0 ? (stats.mediumSolved / stats.mediumTotal) * 100 : 0;
+
+  const hardPercentage =
+    stats?.hardTotal > 0 ? (stats.hardSolved / stats.hardTotal) * 100 : 0;
+
   return (
-    <div className="min-h-screen bg-gray-950 text-white px-6 py-10">
-      {/* Header */}
-      <div className="max-w-6xl mx-auto text-center">
-        <h1 className="text-4xl md:text-5xl font-bold mb-10">
-          LeetTrack Dashboard
-        </h1>
+    <div className="min-h-screen bg-gray-950 text-white">
+      <Navbar />
 
-        {/* Overall Progress */}
-        {stats && (
-          <section className="mb-12">
-            <h2 className="text-2xl font-semibold mb-6">Overall Progress</h2>
+      <div className="px-6 py-10">
+        <div className="max-w-6xl mx-auto">
+          {/* Header */}
+          <div className="text-center mb-12">
+            <h1 className="text-4xl md:text-5xl font-bold">
+              LeetTrack Dashboard
+            </h1>
 
-            <div className="flex flex-wrap justify-center gap-4">
-              <div className="bg-gray-900 border border-gray-800 rounded-xl px-6 py-4">
-                <p className="text-gray-400 text-sm">Total Problems</p>
-                <p className="text-2xl font-bold">{stats.totalProblems}</p>
+            <p className="text-gray-400 mt-3">
+              Track your progress across 500 curated LeetCode problems
+            </p>
+          </div>
+
+          {/* Overall Progress */}
+          {stats && (
+            <section className="mb-14">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-semibold">Overall Progress</h2>
+
+                <span className="text-sm text-gray-500">
+                  {stats.solved} / {stats.totalProblems} solved
+                </span>
               </div>
 
-              <div className="bg-gray-900 border border-gray-800 rounded-xl px-6 py-4">
-                <p className="text-gray-400 text-sm">Solved</p>
-                <p className="text-2xl font-bold">{stats.solved}</p>
+              {/* Main Progress Card */}
+              <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6 mb-6">
+                <div className="flex items-center justify-between mb-4">
+                  <div>
+                    <p className="text-gray-400 text-sm">Overall Completion</p>
+
+                    <p className="text-3xl font-bold mt-1">
+                      {stats.progressPercentage.toFixed(1)}%
+                    </p>
+                  </div>
+
+                  <div className="text-right">
+                    <p className="text-gray-500 text-sm">Remaining</p>
+
+                    <p className="text-xl font-semibold mt-1">
+                      {stats.remaining}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Overall Progress Bar */}
+                <div className="w-full h-3 bg-gray-800 rounded-full overflow-hidden">
+                  <div
+                    className="h-3 bg-purple-600 rounded-full transition-all duration-700"
+                    style={{
+                      width: `${Math.min(stats.progressPercentage, 100)}%`,
+                    }}
+                  />
+                </div>
               </div>
 
-              <div className="bg-gray-900 border border-gray-800 rounded-xl px-6 py-4">
-                <p className="text-gray-400 text-sm">Remaining</p>
-                <p className="text-2xl font-bold">{stats.remaining}</p>
-              </div>
+              {/* Summary Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {/* Total */}
+                <div className="bg-gray-900 border border-gray-800 rounded-xl p-5 hover:border-gray-700 transition">
+                  <p className="text-gray-500 text-sm">Total Problems</p>
 
-              <div className="bg-gray-900 border border-gray-800 rounded-xl px-6 py-4">
-                <p className="text-gray-400 text-sm">Progress</p>
-                <p className="text-2xl font-bold">
-                  {stats.progressPercentage.toFixed(1)}%
-                </p>
-              </div>
+                  <p className="text-3xl font-bold mt-2">
+                    {stats.totalProblems}
+                  </p>
+                </div>
 
-              <div className="bg-gray-900 border border-gray-800 rounded-xl px-6 py-4">
-                <p className="text-gray-400 text-sm">Easy</p>
-                <p className="text-2xl font-bold">{stats.easySolved}</p>
-              </div>
+                {/* Solved */}
+                <div className="bg-gray-900 border border-gray-800 rounded-xl p-5 hover:border-gray-700 transition">
+                  <p className="text-gray-500 text-sm">Solved</p>
 
-              <div className="bg-gray-900 border border-gray-800 rounded-xl px-6 py-4">
-                <p className="text-gray-400 text-sm">Medium</p>
-                <p className="text-2xl font-bold">{stats.mediumSolved}</p>
-              </div>
+                  <p className="text-3xl font-bold mt-2">{stats.solved}</p>
+                </div>
 
-              <div className="bg-gray-900 border border-gray-800 rounded-xl px-6 py-4">
-                <p className="text-gray-400 text-sm">Hard</p>
-                <p className="text-2xl font-bold">{stats.hardSolved}</p>
-              </div>
+                {/* Remaining */}
+                <div className="bg-gray-900 border border-gray-800 rounded-xl p-5 hover:border-gray-700 transition">
+                  <p className="text-gray-500 text-sm">Remaining</p>
 
-              <div className="bg-gray-900 border border-gray-800 rounded-xl px-6 py-4">
-                <p className="text-gray-400 text-sm">Revisions</p>
-                <p className="text-2xl font-bold">{stats.totalRevisions}</p>
+                  <p className="text-3xl font-bold mt-2">{stats.remaining}</p>
+                </div>
+
+                {/* Revisions */}
+                <div className="bg-gray-900 border border-gray-800 rounded-xl p-5 hover:border-gray-700 transition">
+                  <p className="text-gray-500 text-sm">Revisions</p>
+
+                  <p className="text-3xl font-bold mt-2">
+                    {stats.totalRevisions}
+                  </p>
+                </div>
               </div>
+            </section>
+          )}
+
+          {/* Difficulty Breakdown */}
+          {stats && (
+            <section className="mb-14">
+              <h2 className="text-2xl font-semibold mb-6">
+                Difficulty Breakdown
+              </h2>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                {/* Easy */}
+                <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 hover:border-gray-700 transition">
+                  <div className="flex items-start justify-between mb-5">
+                    <div>
+                      <p className="text-gray-400 text-sm">Easy</p>
+
+                      <p className="text-3xl font-bold mt-1">
+                        {stats.easySolved}
+                      </p>
+
+                      <p className="text-sm text-gray-500 mt-1">
+                        {stats.easySolved} / {stats.easyTotal} solved
+                      </p>
+                    </div>
+
+                    <span className="text-2xl">🟢</span>
+                  </div>
+
+                  <div className="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
+                    <div
+                      className="h-2 bg-green-500 rounded-full transition-all duration-700"
+                      style={{
+                        width: `${Math.min(easyPercentage, 100)}%`,
+                      }}
+                    />
+                  </div>
+
+                  <div className="flex justify-between mt-2">
+                    <p className="text-xs text-gray-500">
+                      {easyPercentage.toFixed(1)}% complete
+                    </p>
+
+                    <p className="text-xs text-gray-600">
+                      {stats.easyTotal} total
+                    </p>
+                  </div>
+                </div>
+
+                {/* Medium */}
+                <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 hover:border-gray-700 transition">
+                  <div className="flex items-start justify-between mb-5">
+                    <div>
+                      <p className="text-gray-400 text-sm">Medium</p>
+
+                      <p className="text-3xl font-bold mt-1">
+                        {stats.mediumSolved}
+                      </p>
+
+                      <p className="text-sm text-gray-500 mt-1">
+                        {stats.mediumSolved} / {stats.mediumTotal} solved
+                      </p>
+                    </div>
+
+                    <span className="text-2xl">🟡</span>
+                  </div>
+
+                  <div className="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
+                    <div
+                      className="h-2 bg-yellow-500 rounded-full transition-all duration-700"
+                      style={{
+                        width: `${Math.min(mediumPercentage, 100)}%`,
+                      }}
+                    />
+                  </div>
+
+                  <div className="flex justify-between mt-2">
+                    <p className="text-xs text-gray-500">
+                      {mediumPercentage.toFixed(1)}% complete
+                    </p>
+
+                    <p className="text-xs text-gray-600">
+                      {stats.mediumTotal} total
+                    </p>
+                  </div>
+                </div>
+
+                {/* Hard */}
+                <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 hover:border-gray-700 transition">
+                  <div className="flex items-start justify-between mb-5">
+                    <div>
+                      <p className="text-gray-400 text-sm">Hard</p>
+
+                      <p className="text-3xl font-bold mt-1">
+                        {stats.hardSolved}
+                      </p>
+
+                      <p className="text-sm text-gray-500 mt-1">
+                        {stats.hardSolved} / {stats.hardTotal} solved
+                      </p>
+                    </div>
+
+                    <span className="text-2xl">🔴</span>
+                  </div>
+
+                  <div className="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
+                    <div
+                      className="h-2 bg-red-500 rounded-full transition-all duration-700"
+                      style={{
+                        width: `${Math.min(hardPercentage, 100)}%`,
+                      }}
+                    />
+                  </div>
+
+                  <div className="flex justify-between mt-2">
+                    <p className="text-xs text-gray-500">
+                      {hardPercentage.toFixed(1)}% complete
+                    </p>
+
+                    <p className="text-xs text-gray-600">
+                      {stats.hardTotal} total
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
+
+          {/* Topics */}
+          <section>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-semibold">Topics</h2>
+
+              <span className="text-sm text-gray-500">
+                {categories.length} topics
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {categories.map((category) => (
+                <TopicCard
+                  key={category.category}
+                  category={category.category}
+                  solved={category.solved}
+                  total={category.total}
+                />
+              ))}
             </div>
           </section>
-        )}
-
-        {/* Topics */}
-        <section>
-          <h2 className="text-2xl font-semibold mb-6">Topics</h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {categories.map((category) => (
-              <TopicCard
-                key={category.category}
-                category={category.category}
-                solved={category.solved}
-                total={category.total}
-              />
-            ))}
-          </div>
-        </section>
+        </div>
       </div>
     </div>
   );

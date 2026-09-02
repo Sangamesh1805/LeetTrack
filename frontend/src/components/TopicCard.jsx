@@ -3,45 +3,55 @@ import { useNavigate } from "react-router-dom";
 function TopicCard({ category, solved, total }) {
   const navigate = useNavigate();
 
-  const percentage = total === 0 ? 0 : ((solved / total) * 100).toFixed(1);
+  const percentage = total === 0 ? 0 : (solved / total) * 100;
 
   return (
     <div
       onClick={() => navigate(`/topic/${category}`)}
       className="
-                bg-gray-900
-                border border-gray-800
-                rounded-2xl
-                p-7
-                text-center
-                cursor-pointer
-                transition
-                duration-200
-                hover:-translate-y-1
-                hover:border-gray-600
-            "
+        bg-gray-900
+        border border-gray-800
+        rounded-2xl
+        p-6
+        cursor-pointer
+        transition-all
+        duration-200
+        hover:border-purple-500
+        hover:bg-gray-800
+        hover:-translate-y-1
+        hover:shadow-lg
+      "
     >
-      <h3 className="text-xl font-bold mb-5">{category}</h3>
+      {/* Header */}
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="text-xl font-semibold">{category}</h3>
 
-      <p className="text-gray-300 mb-2">
-        {solved} / {total} solved
-      </p>
+        <span className="text-gray-500 text-lg">→</span>
+      </div>
 
-      <p className="text-gray-400 mb-6">{percentage}%</p>
+      {/* Progress Numbers */}
+      <div className="flex items-center justify-between mb-2">
+        <p className="text-gray-400 text-sm">
+          {solved} / {total} solved
+        </p>
 
-      <button
-        className="
-                    px-5
-                    py-2
-                    rounded-lg
-                    bg-purple-600
-                    hover:bg-purple-700
-                    transition
-                    font-medium
-                "
-      >
-        View Topic
-      </button>
+        <p className="text-sm font-medium text-gray-400">
+          {percentage.toFixed(1)}%
+        </p>
+      </div>
+
+      {/* Progress Bar */}
+      <div className="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
+        <div
+          className="h-2 bg-purple-600 rounded-full transition-all duration-500"
+          style={{
+            width: `${Math.min(percentage, 100)}%`,
+          }}
+        />
+      </div>
+
+      {/* Footer */}
+      <p className="text-xs text-gray-500 mt-3">Click to view problems</p>
     </div>
   );
 }

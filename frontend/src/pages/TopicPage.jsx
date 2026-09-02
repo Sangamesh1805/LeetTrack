@@ -8,6 +8,7 @@ import SolveConfirmation from "../components/topics/SolveConfirmation";
 import RevisionConfirmation from "../components/topics/RevisionConfirmation";
 import RevisionHistory from "../components/topics/RevisionHistory";
 import ProblemFilters from "../components/topics/ProblemFilters";
+import Navbar from "../components/Navbar";
 
 function TopicPage() {
   const { category } = useParams();
@@ -202,13 +203,16 @@ function TopicPage() {
       : ((solvedCount / problems.length) * 100).toFixed(1);
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white px-6 py-10">
-      <div className="max-w-6xl mx-auto">
-        {/* Back button */}
+    <div className="min-h-screen bg-gray-950 text-white">
+      <Navbar />
 
-        <button
-          onClick={() => navigate("/")}
-          className="
+      <div className="px-6 py-10">
+        <div className="max-w-6xl mx-auto">
+          {/* Back button */}
+
+          <button
+            onClick={() => navigate("/")}
+            className="
             mb-8
             px-4
             py-2
@@ -217,53 +221,53 @@ function TopicPage() {
             hover:bg-gray-700
             transition
           "
-        >
-          ← Dashboard
-        </button>
+          >
+            ← Dashboard
+          </button>
 
-        <TopicHeader
-          category={category}
-          solvedCount={solvedCount}
-          totalProblems={problems.length}
-          percentage={percentage}
+          <TopicHeader
+            category={category}
+            solvedCount={solvedCount}
+            totalProblems={problems.length}
+            percentage={percentage}
+          />
+
+          <ProblemFilters
+            search={search}
+            difficulty={difficulty}
+            status={status}
+            onSearchChange={setSearch}
+            onDifficultyChange={setDifficulty}
+            onStatusChange={setStatus}
+          />
+
+          <ProblemList
+            problems={filteredProblems}
+            isSolved={isSolved}
+            getRevisionCount={getRevisionCount}
+            onMarkSolved={handleMarkSolved}
+            onMarkRevised={handleMarkRevised}
+            onShowHistory={handleShowHistory}
+          />
+        </div>
+
+        <SolveConfirmation
+          problem={selectedProblem}
+          solving={solving}
+          onCancel={() => setSelectedProblem(null)}
+          onConfirm={confirmMarkSolved}
         />
 
-        <ProblemFilters
-          search={search}
-          difficulty={difficulty}
-          status={status}
-          onSearchChange={setSearch}
-          onDifficultyChange={setDifficulty}
-          onStatusChange={setStatus}
+        <RevisionConfirmation
+          problem={selectedRevisionProblem}
+          revising={revising}
+          onCancel={() => setSelectedRevisionProblem(null)}
+          onConfirm={confirmMarkRevised}
         />
 
-        <ProblemList
-          problems={filteredProblems}
-          isSolved={isSolved}
-          getRevisionCount={getRevisionCount}
-          onMarkSolved={handleMarkSolved}
-          onMarkRevised={handleMarkRevised}
-          onShowHistory={handleShowHistory}
-        />
-      </div>
-
-      <SolveConfirmation
-        problem={selectedProblem}
-        solving={solving}
-        onCancel={() => setSelectedProblem(null)}
-        onConfirm={confirmMarkSolved}
-      />
-
-      <RevisionConfirmation
-        problem={selectedRevisionProblem}
-        revising={revising}
-        onCancel={() => setSelectedRevisionProblem(null)}
-        onConfirm={confirmMarkRevised}
-      />
-
-      {selectedHistoryProblem && (
-        <div
-          className="
+        {selectedHistoryProblem && (
+          <div
+            className="
       fixed
       inset-0
       bg-black/70
@@ -272,9 +276,9 @@ function TopicPage() {
       justify-center
       px-4
     "
-        >
-          <div
-            className="
+          >
+            <div
+              className="
         bg-gray-900
         border border-gray-700
         rounded-2xl
@@ -282,34 +286,37 @@ function TopicPage() {
         max-w-lg
         w-full
       "
-          >
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold">Revision History</h2>
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold">Revision History</h2>
 
-              <button
-                onClick={() => {
-                  setSelectedHistoryProblem(null);
-                  setRevisionHistory([]);
-                }}
-                className="
+                <button
+                  onClick={() => {
+                    setSelectedHistoryProblem(null);
+                    setRevisionHistory([]);
+                  }}
+                  className="
             text-gray-400
             hover:text-white
             text-xl
           "
-              >
-                ✕
-              </button>
+                >
+                  ✕
+                </button>
+              </div>
+
+              <p className="text-gray-400 mb-4">
+                {selectedHistoryProblem.title}
+              </p>
+
+              <RevisionHistory
+                revisions={revisionHistory}
+                loading={historyLoading}
+              />
             </div>
-
-            <p className="text-gray-400 mb-4">{selectedHistoryProblem.title}</p>
-
-            <RevisionHistory
-              revisions={revisionHistory}
-              loading={historyLoading}
-            />
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

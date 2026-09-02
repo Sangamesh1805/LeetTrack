@@ -1,5 +1,6 @@
-import { createContext, useContext, useState } from "react";
-import api from "../services/api";
+import { createContext, useContext, useEffect, useState } from "react";
+
+import api, { setUnauthorizedHandler } from "../services/api";
 
 const AuthContext = createContext();
 
@@ -24,6 +25,16 @@ export function AuthProvider({ children }) {
     localStorage.removeItem("token");
     setToken(null);
   };
+
+  useEffect(() => {
+    setUnauthorizedHandler(() => {
+      logout();
+    });
+
+    return () => {
+      setUnauthorizedHandler(null);
+    };
+  }, []);
 
   return (
     <AuthContext.Provider
