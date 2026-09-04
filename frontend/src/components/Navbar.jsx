@@ -32,15 +32,15 @@ function Navbar() {
             </button>
 
             <button
+              onClick={() => navigate("/profile")}
+              className="text-gray-400 hover:text-white transition"
+            >
+              Profile
+            </button>
+
+            <button
               onClick={handleLogout}
-              className="
-                px-4 py-2
-                rounded-lg
-                bg-gray-800
-                hover:bg-gray-700
-                text-white
-                transition
-              "
+              className="px-4 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-white transition"
             >
               Logout
             </button>

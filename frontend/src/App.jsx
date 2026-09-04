@@ -1,11 +1,23 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Dashboard from "./pages/Dashboard";
-import TopicPage from "./pages/TopicPage";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import Dashboard from "./pages/Dashboard";
+import TopicPage from "./pages/TopicPage";
+import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Navbar from "./components/Navbar";
+import OAuthSuccess from "./pages/OAuthSuccess";
+
+function ProtectedLayout({ children }) {
+  return (
+    <ProtectedRoute>
+      <Navbar />
+      {children}
+    </ProtectedRoute>
+  );
+}
 
 function App() {
   return (
@@ -19,21 +31,32 @@ function App() {
 
         <Route path="/reset-password" element={<ResetPassword />} />
 
+        <Route path="/oauth-success" element={<OAuthSuccess />} />
+
         <Route
           path="/"
           element={
-            <ProtectedRoute>
+            <ProtectedLayout>
               <Dashboard />
-            </ProtectedRoute>
+            </ProtectedLayout>
           }
         />
 
         <Route
           path="/topic/:category"
           element={
-            <ProtectedRoute>
+            <ProtectedLayout>
               <TopicPage />
-            </ProtectedRoute>
+            </ProtectedLayout>
+          }
+        />
+
+        <Route
+          path="/profile"
+          element={
+            <ProtectedLayout>
+              <Profile />
+            </ProtectedLayout>
           }
         />
       </Routes>

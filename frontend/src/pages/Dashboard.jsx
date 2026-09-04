@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import TopicCard from "../components/TopicCard";
-import Navbar from "../components/Navbar";
 
 function Dashboard() {
   const [stats, setStats] = useState(null);
@@ -48,8 +47,6 @@ function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-950 text-white">
-      <Navbar />
-
       <div className="px-6 py-10">
         <div className="max-w-6xl mx-auto">
           {/* Header */}

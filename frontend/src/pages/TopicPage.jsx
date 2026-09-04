@@ -8,7 +8,6 @@ import SolveConfirmation from "../components/topics/SolveConfirmation";
 import RevisionConfirmation from "../components/topics/RevisionConfirmation";
 import RevisionHistory from "../components/topics/RevisionHistory";
 import ProblemFilters from "../components/topics/ProblemFilters";
-import Navbar from "../components/Navbar";
 
 function TopicPage() {
   const { category } = useParams();
@@ -204,8 +203,6 @@ function TopicPage() {
 
   return (
     <div className="min-h-screen bg-gray-950 text-white">
-      <Navbar />
-
       <div className="px-6 py-10">
         <div className="max-w-6xl mx-auto">
           {/* Back button */}

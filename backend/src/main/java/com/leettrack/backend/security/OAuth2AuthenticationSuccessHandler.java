@@ -56,6 +56,6 @@ public class OAuth2AuthenticationSuccessHandler
         String token = jwtService.generateToken(user.getEmail());
 
         response.sendRedirect(
-                "http://localhost:3000/oauth-success?token=" + token);
+                "http://localhost:5173/oauth-success?token=" + token);
     }
 }

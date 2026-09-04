@@ -1,5 +1,10 @@
-import { createContext, useContext, useEffect, useState } from "react";
-
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import api, { setUnauthorizedHandler } from "../services/api";
 
 const AuthContext = createContext();
@@ -21,10 +26,15 @@ export function AuthProvider({ children }) {
     return response.data;
   };
 
-  const logout = () => {
+  const saveToken = useCallback((newToken) => {
+    localStorage.setItem("token", newToken);
+    setToken(newToken);
+  }, []);
+
+  const logout = useCallback(() => {
     localStorage.removeItem("token");
     setToken(null);
-  };
+  }, []);
 
   useEffect(() => {
     setUnauthorizedHandler(() => {
@@ -34,7 +44,7 @@ export function AuthProvider({ children }) {
     return () => {
       setUnauthorizedHandler(null);
     };
-  }, []);
+  }, [logout]);
 
   return (
     <AuthContext.Provider
@@ -42,6 +52,7 @@ export function AuthProvider({ children }) {
         token,
         login,
         logout,
+        saveToken,
         isAuthenticated: !!token,
       }}
     >

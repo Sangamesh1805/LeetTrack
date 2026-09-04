@@ -9,6 +9,8 @@ import com.leettrack.backend.dto.ResetPasswordRequest;
 import com.leettrack.backend.entity.User;
 import com.leettrack.backend.service.AuthService;
 import com.leettrack.backend.service.UserService;
+import com.leettrack.backend.dto.UserProfileResponse;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -58,5 +60,19 @@ public class UserController {
         authService.resetPassword(request);
 
         return "Password reset successfully";
+    }
+
+    @GetMapping("/me")
+    public UserProfileResponse getCurrentUser(Authentication authentication) {
+
+        String email = authentication.getName();
+
+        User user = userService.getUserByEmail(email);
+
+        return new UserProfileResponse(
+                user.getId(),
+                user.getName(),
+                user.getEmail(),
+                user.getAuthProvider());
     }
 }
