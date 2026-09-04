@@ -9,22 +9,22 @@ function TopicCard({ category, solved, total }) {
     <div
       onClick={() => navigate(`/topic/${category}`)}
       className="
-        bg-gray-900
-        border border-gray-800
+        bg-white/[0.035]
+        border border-white/8
         rounded-2xl
         p-6
         cursor-pointer
         transition-all
         duration-200
-        hover:border-purple-500
-        hover:bg-gray-800
+        hover:border-purple-400/60
+        hover:bg-white/[0.06]
         hover:-translate-y-1
-        hover:shadow-lg
+        hover:shadow-xl hover:shadow-purple-950/20
       "
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-xl font-semibold">{category}</h3>
+        <h3 className="text-lg font-semibold tracking-tight">{category}</h3>
 
         <span className="text-gray-500 text-lg">→</span>
       </div>
@@ -51,7 +51,12 @@ function TopicCard({ category, solved, total }) {
       </div>
 
       {/* Footer */}
-      <p className="text-xs text-gray-500 mt-3">Click to view problems</p>
+      <div className="flex items-center justify-between mt-4">
+        <p className="text-xs text-gray-500">View problem set</p>
+        <span className="text-xs font-medium text-purple-300">
+          {solved === total && total > 0 ? "Complete" : "In progress"}
+        </span>
+      </div>
     </div>
   );
 }

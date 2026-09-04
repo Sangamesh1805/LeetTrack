@@ -33,14 +33,6 @@ function TopicPage() {
   const [status, setStatus] = useState("");
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      fetchTopicData();
-    }, 300);
-
-    return () => clearTimeout(timer);
-  }, [category, search, difficulty]);
-
-  useEffect(() => {
     const fetchTopicData = async () => {
       try {
         const params = new URLSearchParams();
@@ -203,19 +195,20 @@ function TopicPage() {
 
   return (
     <div className="min-h-screen bg-gray-950 text-white">
-      <div className="px-6 py-10">
-        <div className="max-w-6xl mx-auto">
+      <div className="px-5 sm:px-6 py-8 sm:py-10">
+        <div className="max-w-7xl mx-auto">
           {/* Back button */}
 
           <button
             onClick={() => navigate("/")}
             className="
-            mb-8
-            px-4
+            mb-6
+            px-3
             py-2
             rounded-lg
-            bg-gray-800
-            hover:bg-gray-700
+            border border-white/8
+            bg-white/5
+            hover:bg-white/10
             transition
           "
           >
@@ -276,10 +269,10 @@ function TopicPage() {
           >
             <div
               className="
-        bg-gray-900
-        border border-gray-700
+          bg-[#111119]
+        border border-white/10
         rounded-2xl
-        p-6
+        p-5 sm:p-6
         max-w-lg
         w-full
       "

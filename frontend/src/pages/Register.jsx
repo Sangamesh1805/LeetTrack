@@ -58,7 +58,7 @@ function Register() {
 
   return (
     <AuthLayout>
-      <div className="mb-5">
+      <div className="mb-4">
         <Link
           to="/login"
           className="lg:hidden text-2xl font-bold hover:text-purple-400 transition"
@@ -66,24 +66,26 @@ function Register() {
           LeetTrack
         </Link>
 
-        <h1 className="text-4xl font-bold mt-6 lg:mt-0">Create your account</h1>
+        <h1 className="text-[1.7rem] font-bold mt-4 lg:mt-0">
+          Create your account
+        </h1>
 
-        <p className="text-lg text-gray-500 mt-2">
+        <p className="text-[0.9rem] text-gray-500 mt-1.5">
           Start tracking your LeetCode journey.
         </p>
       </div>
 
       {error && (
-        <div className="mb-5 px-4 py-3 rounded-lg border border-red-900 bg-red-950/40 text-red-400 text-sm">
+        <div className="mb-4 px-3.5 py-2.5 rounded-lg border border-red-900 bg-red-950/40 text-red-400 text-sm">
           {error}
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-2.5">
         <div>
           <label
             htmlFor="name"
-            className="block text-lg font-medium text-gray-300 mb-2"
+            className="block text-sm font-medium text-gray-300 mb-1"
           >
             Name
           </label>
@@ -96,14 +98,14 @@ function Register() {
             placeholder="Your name"
             autoComplete="name"
             required
-            className="w-full px-4 py-3 rounded-lg bg-gray-900 border border-gray-800 text-white placeholder-gray-600 outline-none transition focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
+            className="w-full px-3.5 py-2.25 rounded-lg bg-gray-900 border border-gray-800 text-white placeholder-gray-600 outline-none transition focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
           />
         </div>
 
         <div>
           <label
             htmlFor="email"
-            className="block text-lg font-medium text-gray-300 mb-2"
+            className="block text-sm font-medium text-gray-300 mb-1"
           >
             Email
           </label>
@@ -116,14 +118,14 @@ function Register() {
             placeholder="you@example.com"
             autoComplete="email"
             required
-            className="w-full px-4 py-3 rounded-lg bg-gray-900 border border-gray-800 text-white placeholder-gray-600 outline-none transition focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
+            className="w-full px-3.5 py-2.25 rounded-lg bg-gray-900 border border-gray-800 text-white placeholder-gray-600 outline-none transition focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
           />
         </div>
 
         <div>
           <label
             htmlFor="password"
-            className="block text-lg font-medium text-gray-300 mb-2"
+            className="block text-sm font-medium text-gray-300 mb-1"
           >
             Password
           </label>
@@ -137,13 +139,13 @@ function Register() {
               placeholder="Create a password"
               autoComplete="new-password"
               required
-              className="w-full px-4 py-3 pr-20 rounded-lg bg-gray-900 border border-gray-800 text-white placeholder-gray-600 outline-none transition focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
+              className="w-full px-3.5 py-2.25 pr-16 rounded-lg bg-gray-900 border border-gray-800 text-white placeholder-gray-600 outline-none transition focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
             />
 
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-500 hover:text-gray-300 transition"
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-gray-500 hover:text-gray-300 transition"
             >
               {showPassword ? "Hide" : "Show"}
             </button>
@@ -153,7 +155,7 @@ function Register() {
         <div>
           <label
             htmlFor="confirmPassword"
-            className="block text-lg font-medium text-gray-300 mb-2"
+            className="block text-sm font-medium text-gray-300 mb-1"
           >
             Confirm Password
           </label>
@@ -167,13 +169,13 @@ function Register() {
               placeholder="Confirm your password"
               autoComplete="new-password"
               required
-              className="w-full px-4 py-3 pr-20 rounded-lg bg-gray-900 border border-gray-800 text-white placeholder-gray-600 outline-none transition focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
+              className="w-full px-3.5 py-2.25 pr-16 rounded-lg bg-gray-900 border border-gray-800 text-white placeholder-gray-600 outline-none transition focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
             />
 
             <button
               type="button"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-500 hover:text-gray-300 transition"
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-gray-500 hover:text-gray-300 transition"
             >
               {showConfirmPassword ? "Hide" : "Show"}
             </button>
@@ -183,13 +185,13 @@ function Register() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-3 rounded-lg bg-purple-600 hover:bg-purple-700 disabled:bg-purple-900 disabled:text-gray-500 disabled:cursor-not-allowed font-semibold transition"
+          className="w-full py-2.25 rounded-lg bg-purple-600 hover:bg-purple-700 disabled:bg-purple-900 disabled:text-gray-500 disabled:cursor-not-allowed font-semibold transition"
         >
           {loading ? "Creating account..." : "Create Account"}
         </button>
       </form>
 
-      <div className="flex items-center gap-4 my-5">
+      <div className="flex items-center gap-3 my-4">
         <div className="flex-1 h-px bg-gray-800" />
         <span className="text-xs text-gray-600">OR</span>
         <div className="flex-1 h-px bg-gray-800" />
@@ -198,12 +200,12 @@ function Register() {
       <button
         type="button"
         onClick={handleGoogleSignup}
-        className="w-full py-3 rounded-lg bg-gray-900 hover:bg-gray-800 border border-gray-800 text-white font-semibold transition"
+        className="w-full py-2.25 rounded-lg bg-gray-900 hover:bg-gray-800 border border-gray-800 text-white font-semibold transition"
       >
         Continue with Google
       </button>
 
-      <p className="text-center text-base text-gray-500 mt-5">
+      <p className="text-center text-sm text-gray-500 mt-4">
         Already have an account?{" "}
         <Link
           to="/login"

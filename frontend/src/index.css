@@ -1,1 +1,43 @@
 @import "tailwindcss";
+
+:root {
+  font-family: "DM Sans", "Segoe UI", sans-serif;
+  color: #f4f2f8;
+  background: #09090f;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(
+      circle at 82% -10%,
+      rgba(124, 58, 237, 0.14),
+      transparent 30rem
+    ),
+    #09090f;
+}
+
+button,
+input,
+select {
+  font-family: inherit;
+}
+
+button,
+a,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  color: #fff;
+  background: #7c3aed;
+}

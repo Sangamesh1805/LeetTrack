@@ -9,29 +9,42 @@ function ProblemCard({
   return (
     <div
       className="
-        bg-gray-900
-        border border-gray-800
-        rounded-xl
-        p-5
+        bg-white/[0.035]
+        border border-white/8
+        rounded-2xl
+        p-4 sm:p-5
         flex
-        items-center
-        justify-between
-        gap-4
+        flex-col
+        items-start
+        sm:flex-row
+        sm:items-center
+        sm:justify-between
+        gap-5 hover:border-white/15 transition-colors
       "
     >
-      <div className="flex items-center gap-5">
-        <span className="text-gray-500 w-8">{problem.orderIndex}</span>
+      <div className="flex items-center gap-5 min-w-0">
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/6 text-xs font-semibold text-gray-400">
+          {problem.orderIndex}
+        </span>
 
-        <div>
-          <h2 className="font-semibold">{problem.title}</h2>
+        <div className="min-w-0">
+          <h2 className="font-semibold text-gray-100 wrap-break-word">
+            {problem.title}
+          </h2>
 
-          <p className="text-sm text-gray-500 mt-1">{problem.difficulty}</p>
+          <p
+            className={`mt-1 text-xs font-medium ${problem.difficulty === "EASY" ? "text-emerald-300" : problem.difficulty === "MEDIUM" ? "text-amber-300" : "text-rose-300"}`}
+          >
+            {problem.difficulty}
+          </p>
         </div>
       </div>
 
-      <div className="flex flex-col items-end gap-2">
-        <div className="flex items-center gap-3">
-          <span className={solved ? "text-green-400" : "text-gray-500"}>
+      <div className="flex w-full flex-col items-start gap-2 sm:w-auto sm:items-end">
+        <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto sm:gap-3">
+          <span
+            className={`text-xs font-medium ${solved ? "text-emerald-300" : "text-gray-500"}`}
+          >
             {solved ? "✓ Solved" : "○ Not solved"}
           </span>
 
@@ -40,11 +53,11 @@ function ProblemCard({
             target="_blank"
             rel="noreferrer"
             className="
-        px-4
+        px-3
         py-2
         rounded-lg
-        bg-purple-600
-        hover:bg-purple-700
+        bg-purple-600/90
+        hover:bg-purple-500
         transition
       "
           >
@@ -55,11 +68,11 @@ function ProblemCard({
             <button
               onClick={() => onMarkSolved(problem)}
               className="
-          px-4
+          px-3
           py-2
           rounded-lg
-          bg-green-600
-          hover:bg-green-700
+          bg-emerald-600/90
+          hover:bg-emerald-500
           transition
         "
             >
@@ -72,11 +85,11 @@ function ProblemCard({
               <button
                 onClick={() => onMarkRevised(problem)}
                 className="
-            px-4
+            px-3
             py-2
             rounded-lg
-            bg-blue-600
-            hover:bg-blue-700
+            bg-sky-600/90
+            hover:bg-sky-500
             transition
           "
               >
@@ -86,11 +99,11 @@ function ProblemCard({
               <button
                 onClick={() => onShowHistory(problem)}
                 className="
-            px-4
+            px-3
             py-2
             rounded-lg
-            bg-gray-700
-            hover:bg-gray-600
+            bg-white/10
+            hover:bg-white/15
             transition
           "
               >
@@ -102,7 +115,7 @@ function ProblemCard({
 
         {solved && (
           <p className="text-sm text-gray-500">
-            Revision count: {revisionCount}
+            {revisionCount} {revisionCount === 1 ? "revision" : "revisions"}
           </p>
         )}
       </div>

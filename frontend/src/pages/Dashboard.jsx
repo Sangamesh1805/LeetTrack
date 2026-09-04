@@ -47,24 +47,34 @@ function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-950 text-white">
-      <div className="px-6 py-10">
-        <div className="max-w-6xl mx-auto">
+      <div className="px-5 sm:px-6 py-8 sm:py-10">
+        <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold">
-              LeetTrack Dashboard
+          <div className="mb-10 sm:mb-12">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-purple-300/80 mb-3">
+              Your practice workspace
+            </p>
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">
+              Dashboard
             </h1>
-
-            <p className="text-gray-400 mt-3">
-              Track your progress across 500 curated LeetCode problems
+            <p className="text-gray-400 mt-2 max-w-xl">
+              Build momentum with a clear view of your solved problems, weak
+              spots, and next topic to tackle.
             </p>
           </div>
 
           {/* Overall Progress */}
           {stats && (
             <section className="mb-14">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-semibold">Overall Progress</h2>
+              <div className="flex items-end justify-between gap-4 mb-5">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">
+                    Progress snapshot
+                  </p>
+                  <h2 className="text-2xl font-semibold mt-1">
+                    Overall progress
+                  </h2>
+                </div>
 
                 <span className="text-sm text-gray-500">
                   {stats.solved} / {stats.totalProblems} solved
@@ -72,12 +82,12 @@ function Dashboard() {
               </div>
 
               {/* Main Progress Card */}
-              <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6 mb-6">
-                <div className="flex items-center justify-between mb-4">
+              <div className="bg-white/[0.035] border border-white/8 rounded-2xl p-5 sm:p-6 mb-5 shadow-2xl shadow-black/10">
+                <div className="flex items-end justify-between gap-4 mb-5">
                   <div>
                     <p className="text-gray-400 text-sm">Overall Completion</p>
 
-                    <p className="text-3xl font-bold mt-1">
+                    <p className="text-4xl font-bold tracking-tight mt-1">
                       {stats.progressPercentage.toFixed(1)}%
                     </p>
                   </div>
@@ -85,7 +95,7 @@ function Dashboard() {
                   <div className="text-right">
                     <p className="text-gray-500 text-sm">Remaining</p>
 
-                    <p className="text-xl font-semibold mt-1">
+                    <p className="text-2xl font-semibold mt-1 text-gray-200">
                       {stats.remaining}
                     </p>
                   </div>
@@ -105,7 +115,7 @@ function Dashboard() {
               {/* Summary Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {/* Total */}
-                <div className="bg-gray-900 border border-gray-800 rounded-xl p-5 hover:border-gray-700 transition">
+                <div className="bg-white/[0.035] border border-white/8 rounded-xl p-5 hover:border-white/15 transition">
                   <p className="text-gray-500 text-sm">Total Problems</p>
 
                   <p className="text-3xl font-bold mt-2">
@@ -114,21 +124,21 @@ function Dashboard() {
                 </div>
 
                 {/* Solved */}
-                <div className="bg-gray-900 border border-gray-800 rounded-xl p-5 hover:border-gray-700 transition">
+                <div className="bg-white/[0.035] border border-white/8 rounded-xl p-5 hover:border-white/15 transition">
                   <p className="text-gray-500 text-sm">Solved</p>
 
                   <p className="text-3xl font-bold mt-2">{stats.solved}</p>
                 </div>
 
                 {/* Remaining */}
-                <div className="bg-gray-900 border border-gray-800 rounded-xl p-5 hover:border-gray-700 transition">
+                <div className="bg-white/[0.035] border border-white/8 rounded-xl p-5 hover:border-white/15 transition">
                   <p className="text-gray-500 text-sm">Remaining</p>
 
                   <p className="text-3xl font-bold mt-2">{stats.remaining}</p>
                 </div>
 
                 {/* Revisions */}
-                <div className="bg-gray-900 border border-gray-800 rounded-xl p-5 hover:border-gray-700 transition">
+                <div className="bg-white/[0.035] border border-white/8 rounded-xl p-5 hover:border-white/15 transition">
                   <p className="text-gray-500 text-sm">Revisions</p>
 
                   <p className="text-3xl font-bold mt-2">
@@ -142,13 +152,18 @@ function Dashboard() {
           {/* Difficulty Breakdown */}
           {stats && (
             <section className="mb-14">
-              <h2 className="text-2xl font-semibold mb-6">
-                Difficulty Breakdown
-              </h2>
+              <div className="mb-6">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">
+                  By difficulty
+                </p>
+                <h2 className="text-2xl font-semibold mt-1">
+                  Difficulty breakdown
+                </h2>
+              </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                 {/* Easy */}
-                <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 hover:border-gray-700 transition">
+                <div className="bg-white/[0.035] border border-white/8 rounded-xl p-6 hover:border-white/15 transition">
                   <div className="flex items-start justify-between mb-5">
                     <div>
                       <p className="text-gray-400 text-sm">Easy</p>
@@ -162,7 +177,7 @@ function Dashboard() {
                       </p>
                     </div>
 
-                    <span className="text-2xl">🟢</span>
+                    <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 mt-2 shadow-[0_0_12px_rgba(52,211,153,.5)]" />
                   </div>
 
                   <div className="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
@@ -186,7 +201,7 @@ function Dashboard() {
                 </div>
 
                 {/* Medium */}
-                <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 hover:border-gray-700 transition">
+                <div className="bg-white/[0.035] border border-white/8 rounded-xl p-6 hover:border-white/15 transition">
                   <div className="flex items-start justify-between mb-5">
                     <div>
                       <p className="text-gray-400 text-sm">Medium</p>
@@ -200,7 +215,7 @@ function Dashboard() {
                       </p>
                     </div>
 
-                    <span className="text-2xl">🟡</span>
+                    <span className="h-2.5 w-2.5 rounded-full bg-amber-400 mt-2 shadow-[0_0_12px_rgba(251,191,36,.4)]" />
                   </div>
 
                   <div className="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
@@ -224,7 +239,7 @@ function Dashboard() {
                 </div>
 
                 {/* Hard */}
-                <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 hover:border-gray-700 transition">
+                <div className="bg-white/[0.035] border border-white/8 rounded-xl p-6 hover:border-white/15 transition">
                   <div className="flex items-start justify-between mb-5">
                     <div>
                       <p className="text-gray-400 text-sm">Hard</p>
@@ -238,7 +253,7 @@ function Dashboard() {
                       </p>
                     </div>
 
-                    <span className="text-2xl">🔴</span>
+                    <span className="h-2.5 w-2.5 rounded-full bg-rose-400 mt-2 shadow-[0_0_12px_rgba(251,113,133,.4)]" />
                   </div>
 
                   <div className="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
@@ -267,7 +282,12 @@ function Dashboard() {
           {/* Topics */}
           <section>
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-semibold">Topics</h2>
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">
+                  Keep going
+                </p>
+                <h2 className="text-2xl font-semibold mt-1">Topics</h2>
+              </div>
 
               <span className="text-sm text-gray-500">
                 {categories.length} topics
