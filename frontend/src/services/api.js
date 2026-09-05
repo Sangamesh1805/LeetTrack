@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:8080/api",
+  baseURL: import.meta.env.VITE_API_URL || "http://localhost:8080/api",
 });
 
 let unauthorizedHandler = null;
@@ -22,12 +22,9 @@ api.interceptors.request.use((config) => {
 
 api.interceptors.response.use(
   (response) => response,
-
   (error) => {
-    if (error.response?.status === 401) {
-      if (unauthorizedHandler) {
-        unauthorizedHandler();
-      }
+    if (error.response?.status === 401 && unauthorizedHandler) {
+      unauthorizedHandler();
     }
 
     return Promise.reject(error);

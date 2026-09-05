@@ -6,6 +6,8 @@ import com.leettrack.backend.service.JwtService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -17,6 +19,9 @@ import java.io.IOException;
 @Component
 public class OAuth2AuthenticationSuccessHandler
         extends SimpleUrlAuthenticationSuccessHandler {
+
+    @Value("${app.frontend-url}")
+    private String frontendUrl;
 
     private final UserRepository userRepository;
     private final JwtService jwtService;
@@ -56,6 +61,6 @@ public class OAuth2AuthenticationSuccessHandler
         String token = jwtService.generateToken(user.getEmail());
 
         response.sendRedirect(
-                "http://localhost:5173/oauth-success?token=" + token);
+                frontendUrl + "/oauth-success?token=" + token);
     }
 }
